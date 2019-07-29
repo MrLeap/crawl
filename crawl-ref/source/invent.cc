@@ -2158,6 +2158,9 @@ bool item_is_evokable(const item_def &item, bool reach, bool known,
         return true;
 
     case OBJ_WEAPONS:
+        if(item.sub_type == WPN_KATANA){
+            return true;
+        }
         if ((!wielded || !reach) && !msg)
             return false;
 

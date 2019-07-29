@@ -1221,11 +1221,11 @@ static job_group jobs_order[] =
     {
         "Warrior",
         coord_def(0, 0), 15,
-        { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_ASSASSIN }
+        { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_ASSASSIN, JOB_SAMURAI }
     },
     {
         "Adventurer",
-        coord_def(0, 7), 15,
+        coord_def(0, 8), 15,
         { JOB_ARTIFICER, JOB_WANDERER }
     },
     {
@@ -2032,6 +2032,24 @@ static vector<weapon_choice> _get_weapons(const newgame_def& ng)
         {
             weapon_choice wp;
             wp.first = startwep[i];
+
+            wp.second = weapon_restriction(wp.first, ng);
+            if (wp.second != CC_BANNED)
+                weapons.push_back(wp);
+        }
+    }
+    else if(job_gets_eastern_weapons(ng.job)){
+        weapon_type startwep[1] = { WPN_KATANA };
+
+        for (int i = 0; i < 1; ++i)
+        {
+            weapon_choice wp;
+            wp.first = startwep[i];
+            if (job_gets_good_weapons(ng.job))
+            {
+                wp.first = _starting_weapon_upgrade(wp.first, ng.job,
+                                                    ng.species);
+            }
 
             wp.second = weapon_restriction(wp.first, ng);
             if (wp.second != CC_BANNED)

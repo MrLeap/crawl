@@ -298,7 +298,6 @@ enum misc_item_type
     MISC_DECK_OF_ODDITIES,
     MISC_XOMS_CHESSBOARD,
 #endif
-
     NUM_MISCELLANY,
     MISC_DECK_UNKNOWN = NUM_MISCELLANY,
 };
@@ -555,6 +554,7 @@ enum weapon_type
 
     WPN_FALCHION,
     WPN_LONG_SWORD,
+    WPN_KATANA,
     WPN_SCIMITAR,
     WPN_GREAT_SWORD,
 

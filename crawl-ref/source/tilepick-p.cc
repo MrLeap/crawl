@@ -146,6 +146,9 @@ tileidx_t tilep_equ_weapon(const item_def &item)
     case WPN_LONG_SWORD:
         tile = TILEP_HAND1_LONG_SWORD_SLANT;
         break;
+    case WPN_KATANA:
+        tile = TILEP_HAND1_LONG_SWORD_SLANT;
+        break;
     case WPN_GREAT_SWORD:
         tile = TILEP_HAND1_GREAT_SWORD_SLANT;
         break;
@@ -759,7 +762,9 @@ void tilep_job_default(int job, dolls_data *doll)
         case JOB_FIGHTER:
             parts[TILEP_PART_LEG]   = TILEP_LEG_METAL_SILVER;
             break;
-
+        case JOB_SAMURAI:
+            parts[TILEP_PART_LEG]   = TILEP_LEG_METAL_SILVER;
+            break;
         case JOB_SKALD:
             parts[TILEP_PART_BODY]  = TILEP_BODY_SHIRT_WHITE3;
             parts[TILEP_PART_LEG]   = TILEP_LEG_SKIRT_OFS;

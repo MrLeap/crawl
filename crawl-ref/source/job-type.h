@@ -3,6 +3,7 @@
 enum job_type
 {
     JOB_FIGHTER,
+    JOB_SAMURAI,
     JOB_WIZARD,
 #if TAG_MAJOR_VERSION == 34
     JOB_PRIEST,

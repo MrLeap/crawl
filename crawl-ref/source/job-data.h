@@ -4,6 +4,7 @@ enum weapon_choice
     WCHOICE_PLAIN,  ///< Normal weapon choice
     WCHOICE_GOOD,   ///< Chooses from "good" weapons
     WCHOICE_RANGED, ///< Choice of ranged weapon
+    WCHOICE_EASTERN, ///< Choice of samurai weapon
 };
 
 struct job_def
@@ -141,6 +142,20 @@ static const map<job_type, job_def> job_data =
     { { SK_FIGHTING, 3 }, { SK_SHIELDS, 3 }, { SK_ARMOUR, 3 },
       { SK_WEAPON, 2 } },
 } },
+
+
+{ JOB_SAMURAI, {
+    "Sa", "Samurai",
+    7, 2, 7,
+    { SP_DEEP_DWARF, SP_HILL_ORC, SP_TROLL, SP_MINOTAUR, SP_GARGOYLE,
+      SP_CENTAUR, },
+    { "robe", "potion of haste", "arrow q:12", "shortbow" },
+    WCHOICE_EASTERN,
+    { { SK_FIGHTING, 3 }, { SK_ARMOUR, 3 },
+      { SK_WEAPON, 2 }, { SK_DODGING, 2 },
+      { SK_BOWS, 2 }, },
+} },
+
 
 { JOB_FIRE_ELEMENTALIST, {
     "FE", "Fire Elementalist",

@@ -76,6 +76,9 @@ scimitar3
 long_sword1 WPN_LONG_SWORD
 long_sword2
 long_sword3
+katana1 WPN_KATANA
+katana2
+katana3
 greatsword1 WPN_GREAT_SWORD
 greatsword2
 greatsword3

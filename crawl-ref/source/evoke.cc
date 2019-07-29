@@ -230,6 +230,106 @@ static bool _reaching_weapon_attack(const item_def& wpn)
     return true;
 }
 
+static bool _quick_draw_weapon_attack(const item_def& wpn)
+{
+    if (you.confused())
+    {
+        canned_msg(MSG_TOO_CONFUSED);
+        return false;
+    }
+
+    if (you.caught())
+    {
+        mprf("You cannot attack while %s.", held_status());
+        return false;
+    }
+
+    bool targ_mid = false;
+    dist beam;
+    int reach_range = 1;
+    direction_chooser_args args;
+    args.restricts = DIR_TARGET;
+    args.mode = TARG_HOSTILE;
+    args.range = reach_range;
+    args.top_prompt = "Quickdraw what direction?";
+    args.self = confirm_prompt_type::cancel;
+
+    unique_ptr<targeter> hitfunc;
+
+    hitfunc = make_unique<targeter_cone>(&you, reach_range);
+
+
+    // Assume all longer forms of reach use smite targeting.
+
+    args.hitfunc = hitfunc.get();
+
+    direction(beam, args);
+    if (!beam.isValid)
+    {
+        if (beam.isCancel)
+            canned_msg(MSG_OK);
+        return false;
+    }
+
+    if (beam.isMe())
+    {
+        canned_msg(MSG_UNTHINKING_ACT);
+        return false;
+    }
+
+    const coord_def delta = beam.target - you.pos();
+    const int x_distance  = abs(delta.x);
+    const int y_distance  = abs(delta.y);
+    monster* mons = monster_at(beam.target);
+    // don't allow targeting of submerged monsters
+    if (mons && mons->submerged())
+        mons = nullptr;
+
+    if (x_distance > reach_range || y_distance > reach_range)
+    {
+        mpr("Your weapon cannot reach that far!");
+        return false;
+    }
+
+    // Failing to hit someone due to a friend blocking is infuriating,
+    // shadow-boxing empty space is not (and would be abusable to wait
+    // with no penalty).
+    if (mons)
+        you.apply_berserk_penalty = false;
+
+    // Calculate attack delay now in case we have to apply it.
+    const int attack_delay = you.attack_delay().roll();
+
+    // Check for a monster in the way. If there is one, it blocks the reaching
+    // attack 50% of the time, and the attack tries to hit it if it is hostile.
+
+    if (mons == nullptr)
+    {
+        // Must return true, otherwise you get a free discovery
+        // of invisible monsters.
+        mpr("You attack empty space.");
+        you.time_taken = attack_delay;
+        make_hungry(3, true);
+        return true;
+    }
+    else if (!fight_melee(&you, mons))
+    {
+        if (targ_mid)
+        {
+            // turn_is_over may have been reset to false by fight_melee, but
+            // a failed attempt to reach further should not be free; instead,
+            // charge the same as a successful attempt.
+            you.time_taken = attack_delay;
+            make_hungry(3, true);
+            you.turn_is_over = true;
+        }
+        else
+            return false;
+    }
+
+    return true;
+}
+
 static bool _evoke_horn_of_geryon()
 {
     bool created = false;
@@ -1560,6 +1660,14 @@ bool evoke_item(int slot, bool check_range)
         return true;
 
     case OBJ_WEAPONS:
+        //Quickdraw don't need no wield.
+        if (item.sub_type == WPN_KATANA) {
+            if(_quick_draw_weapon_attack(item)){
+                did_work = true;
+            }
+            break;
+        }
+
         ASSERT(wielded);
 
         if (weapon_reach(item) > REACH_NONE)

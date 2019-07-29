@@ -608,7 +608,19 @@ static const weapon_def Weapon_prop[] =
             { SPWPN_ANTIMAGIC,       4 },
             { SPWPN_DISTORTION,      3 },
         }},
-
+    { WPN_KATANA,          "katana",            16,-3, 14,
+        SK_LONG_BLADES,       SIZE_LITTLE, NUM_SIZE_LEVELS, MI_NONE,
+        DAMV_SLICING, 2, 2, 150, {
+            { SPWPN_NORMAL,         34 },
+            { SPWPN_SPEED,          12 },
+            { SPWPN_ELECTROCUTION,  12 },
+            { SPWPN_VAMPIRISM,      12 },
+            { SPWPN_PROTECTION,      9 },
+            { SPWPN_VENOM,           7 },
+            { SPWPN_PAIN,            7 },
+            { SPWPN_ANTIMAGIC,       4 },
+            { SPWPN_DISTORTION,      3 },
+        }},
     // Range weapons
 #if TAG_MAJOR_VERSION == 34
     { WPN_BLOWGUN,           "blowgun",             0,  2, 10,

@@ -249,7 +249,6 @@ static void _give_items_skills(const newgame_def& ng)
                 you.skills[SK_ARMOUR]++; // converted later
         }
         break;
-
     case JOB_CHAOS_KNIGHT:
     {
         you.religion = GOD_XOM;
